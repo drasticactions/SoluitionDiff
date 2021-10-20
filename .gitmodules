@@ -1,0 +1,8 @@
+[submodule "External/Microcharts"]
+	path = External/Microcharts
+	url = git@github.com:drasticactions/Microcharts.git
+	branch = maui-reboot
+[submodule "External/MvsSln"]
+	path = External/MvsSln
+	url = git@github.com:drasticactions/MvsSln.git
+	branch = vs_hack
