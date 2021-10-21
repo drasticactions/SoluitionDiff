@@ -1,0 +1,26 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 2.0//EN">
+<html>
+<head>
+    <title>SolutionDiff 4000</title>
+</head>
+
+<body>
+    <p>Origin URL: {{Origin.Url}}</p>
+    <p>Head Branch: {{Repo.Head.FriendlyName}}</p>
+    <p>Working Directory: {{Repo.Info.WorkingDirectory}}</p>
+    <p>Comparing: {{OldCommit.Id.Sha}} ⬅️ {{NewCommit.Id.Sha}}</p>
+
+    {{#each Solutions}}
+        <h1>Solution: {{SolutionFileName}}</h1>
+        {{#each ProjectDifferences}}
+            <h2>Project: {{Project.ProjectName}}</h2>
+            {{#each Items}}
+                <p>Item: {{Item.evaluatedInclude}}</p>
+                <p>Status: {{Diff.Status}}</p>
+            {{/each}}
+        {{/each}}
+        <hr size="1" width="100%" color="black">  
+    {{/each}}
+</body>
+
+</html>
