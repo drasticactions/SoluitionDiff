@@ -2,6 +2,13 @@
 <html>
 <head>
     <title>SolutionDiff 4000</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/styles/github.min.css" />
+    <link rel="stylesheet"
+          type="text/css"
+          href="https://cdn.jsdelivr.net/npm/diff2html/bundles/css/diff2html.min.css" />
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/diff2html/bundles/js/diff2html-ui.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 </head>
 
 <body>
@@ -11,16 +18,40 @@
     <p>Comparing: {{OldCommit.Id.Sha}} ⬅️ {{NewCommit.Id.Sha}}</p>
 
     {{#each Solutions}}
-        <h1>Solution: {{SolutionFileName}}</h1>
-        {{#each ProjectDifferences}}
-            <h2>Project: {{Project.ProjectName}}</h2>
-            {{#each Items}}
-                <p>Item: {{Item.evaluatedInclude}}</p>
-                <p>Status: {{Diff.Status}}</p>
-            {{/each}}
-        {{/each}}
-        <hr size="1" width="100%" color="black">  
+    <h1>Solution: {{SolutionFileName}}</h1>
+    {{#each ProjectDifferences}}
+    <h2>Project: {{Project.ProjectName}}</h2>
+    {{#each Items}}
+    <div id="{{{../../SolutionFileName}}}-{{{../Project.ProjectName}}}-{{{@Index}}}"></div>
     {{/each}}
+    {{/each}}
+    <hr size="1" width="100%" color="black">
+    {{/each}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+              
+                var configuration = {
+                    drawFileList: true,
+                    fileListToggle: false,
+                    fileListStartVisible: false,
+                    fileContentToggle: false,
+                    matching: 'lines',
+                    outputFormat: 'side-by-side',
+                    synchronisedScroll: true,
+                    highlight: true,
+                    renderNothingWhenEmpty: false,
+                };
+                {{#each Solutions}}
+{{#each ProjectDifferences}}
+{{#each Items}}
+            var targetElement = document.getElementById('{{{../../SolutionFileName}}}-{{{../Project.ProjectName}}}-{{{@Index}}}');
+var diff2htmlUi = new Diff2HtmlUI(targetElement, `{{{Diff.Patch}}}`, configuration);
+diff2htmlUi.draw();
+diff2htmlUi.highlightCode();
+{{/each}}
+{{/each}}
+{{/each}}
+            });
+    </script>
 </body>
-
 </html>

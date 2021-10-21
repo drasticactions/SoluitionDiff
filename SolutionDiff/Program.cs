@@ -15,7 +15,6 @@ var commit1 = repo.Commits.First(n => n.Id == new ObjectId(args[1]));
 var commit2 = repo.Commits.First(n => n.Id == new ObjectId(args[2]));
 
 var diffTree1 = repo.Diff.Compare<Patch>(commit1.Tree, commit2.Tree);
-
 var slnDiffer = new SolutionDiffItem()
 {
     Repo = repo,
@@ -23,7 +22,6 @@ var slnDiffer = new SolutionDiffItem()
     NewCommit = commit2,
     Patch = diffTree1,
 };
-var poop = repo.Network.Remotes.FirstOrDefault(n => n.Name == "origin");
 
 // Get all of the solutions in the directory.
 var slns = DiscoverSolutions(directory);
@@ -56,7 +54,7 @@ ProjectDifferences GetProjectDifferences(IXProject proj, Patch diffs, string rep
     ConcurrentBag<ProjectDifference> differences = new ConcurrentBag<ProjectDifference>();
 
     Parallel.ForEach(diffs, (diff) => {
-        var item = proj.GetItems().Where(n => Path.GetFullPath(diff.Path, repoPath) == Path.Combine(proj.ProjectPath, n.evaluatedInclude));
+        var item = proj.GetItems("Compile").Where(n => Path.GetFullPath(diff.Path, repoPath) == Path.Combine(proj.ProjectPath, n.evaluatedInclude));
         if (item.Any())
         {
             differences.Add(new ProjectDifference() { Diff = diff, Item = item.First() });
@@ -99,6 +97,8 @@ public class SolutionDiffItem
     public Remote Origin => Repo?.Network.Remotes.FirstOrDefault(n => n.Name == "origin");
 
     public List<SolutionDifferences> Solutions { get; set; }
+
+    public string LocalJson { get; set; }
 }
 
 public class SolutionDifferences
