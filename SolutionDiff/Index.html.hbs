@@ -7,29 +7,50 @@
           type="text/css"
           href="https://cdn.jsdelivr.net/npm/diff2html/bundles/css/diff2html.min.css" />
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/diff2html/bundles/js/diff2html-ui.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
 </head>
 
 <body>
-    <p>Origin URL: {{Origin.Url}}</p>
-    <p>Head Branch: {{Repo.Head.FriendlyName}}</p>
-    <p>Working Directory: {{Repo.Info.WorkingDirectory}}</p>
-    <p>Comparing: {{OldCommit.Id.Sha}} ⬅️ {{NewCommit.Id.Sha}}</p>
+    <div class="container">
+        <p>Origin URL: {{Origin.Url}}</p>
+        <p>Head Branch: {{Repo.Head.FriendlyName}}</p>
+        <p>Working Directory: {{Repo.Info.WorkingDirectory}}</p>
+        <p>Comparing: {{OldCommit.Id.Sha}} ⬅️ {{NewCommit.Id.Sha}}</p>
 
-    {{#each Solutions}}
-    <h1>Solution: {{SolutionFileName}}</h1>
-    {{#each ProjectDifferences}}
-    <h2>Project: {{Project.ProjectName}}</h2>
-    {{#each Items}}
-    <div id="{{{../../SolutionFileName}}}-{{{../Project.ProjectName}}}-{{{@Index}}}"></div>
-    {{/each}}
-    {{/each}}
-    <hr size="1" width="100%" color="black">
-    {{/each}}
+        {{#each Solutions}}
+        <div id="{{{SolutionFileNameHeader}}}">
+            <div class="accordion-item">
+                <h2 id="{{{SolutionFileNameHeader}}}-heading" class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#{{{SolutionFileNameHeader}}}-body" aria-expanded="false" aria-controls="{{{SolutionFileNameHeader}}}-body">
+                        <h1>{{SolutionFileName}}</h1>
+                    </button>
+                </h2>
+                <div id="{{{SolutionFileNameHeader}}}-body" aria-labelledby="#{{{SolutionFileNameHeader}}}-heading" class="accordion-collapse collapse" data-bs-parent="#{{{SolutionFileNameHeader}}}">
+                    {{#each ProjectDifferences}}
+                    <div id="{{{../SolutionFileNameHeader}}}-{{{ProjectFileNameHeader}}}">
+                        <div class="accordion-item">
+                            <h2 id="{{{../SolutionFileNameHeader}}}-{{{ProjectFileNameHeader}}}-heading" class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#{{{../SolutionFileNameHeader}}}-{{{ProjectFileNameHeader}}}-body" aria-expanded="false" aria-controls="{{{../SolutionFileNameHeader}}}-{{{ProjectFileNameHeader}}}-body">
+                                    <h2>{{Project.ProjectName}}</h2>
+                                </button>
+                            </h2>
+                            <div id="{{{../SolutionFileNameHeader}}}-{{{ProjectFileNameHeader}}}-body" aria-labelledby="#{{{../SolutionFileNameHeader}}}-{{{ProjectFileNameHeader}}}-heading" class="accordion-collapse collapse" data-bs-parent="#{{{../SolutionFileNameHeader}}}-{{{ProjectFileNameHeader}}}">
+                                {{#each Items}}
+                                <div id="{{{../../SolutionFileName}}}-{{{../Project.ProjectName}}}-{{{@Index}}}"></div>
+                                {{/each}}
+                            </div>
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+        {{/each}}
+    </div>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-              
+
                 var configuration = {
                     drawFileList: true,
                     fileListToggle: false,

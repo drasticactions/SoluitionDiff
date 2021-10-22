@@ -107,6 +107,8 @@ public class SolutionDifferences
 
     public string SolutionFileName => Path.GetFileNameWithoutExtension(Solution.Result.SolutionFile);
 
+    public string SolutionFileNameHeader => SolutionFileName.Replace(".", "-");
+
     public List<ProjectDifferences> ProjectDifferences { get; set; } = new List<ProjectDifferences>();
 
     public void Print()
@@ -120,6 +122,8 @@ public class SolutionDifferences
 public class ProjectDifferences
 {
     public IXProject Project { get;  set; }
+
+    public string ProjectFileNameHeader => Project.ProjectName.Replace(".", "-");
 
     public List<ProjectDifference> Items { get; set; } = new List<ProjectDifference>();
 
