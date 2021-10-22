@@ -54,7 +54,7 @@ ProjectDifferences GetProjectDifferences(IXProject proj, Patch diffs, string rep
     ConcurrentBag<ProjectDifference> differences = new ConcurrentBag<ProjectDifference>();
 
     Parallel.ForEach(diffs, (diff) => {
-        var item = proj.GetItems("Compile").Where(n => Path.GetFullPath(diff.Path, repoPath) == Path.Combine(proj.ProjectPath, n.evaluatedInclude));
+        var item = proj.GetItems().Where(n => Path.GetFullPath(diff.Path, repoPath) == Path.Combine(proj.ProjectPath, n.evaluatedInclude));
         if (item.Any())
         {
             differences.Add(new ProjectDifference() { Diff = diff, Item = item.First() });
