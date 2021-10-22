@@ -23,7 +23,7 @@
             <div class="accordion-item">
                 <h2 id="{{{SolutionFileNameHeader}}}-heading" class="accordion-header">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#{{{SolutionFileNameHeader}}}-body" aria-expanded="false" aria-controls="{{{SolutionFileNameHeader}}}-body">
-                        <h1>{{SolutionFileName}}</h1>
+                        <h1>{{SolutionFileName}} ({{FilesChanged}})</h1>
                     </button>
                 </h2>
                 <div id="{{{SolutionFileNameHeader}}}-body" aria-labelledby="#{{{SolutionFileNameHeader}}}-heading" class="accordion-collapse collapse" data-bs-parent="#{{{SolutionFileNameHeader}}}">
@@ -32,13 +32,11 @@
                         <div class="accordion-item">
                             <h2 id="{{{../SolutionFileNameHeader}}}-{{{ProjectFileNameHeader}}}-heading" class="accordion-header">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#{{{../SolutionFileNameHeader}}}-{{{ProjectFileNameHeader}}}-body" aria-expanded="false" aria-controls="{{{../SolutionFileNameHeader}}}-{{{ProjectFileNameHeader}}}-body">
-                                    <h2>{{Project.ProjectName}}</h2>
+                                    <h2>{{Project.ProjectName}} ({{FilesChanged}})</h2>
                                 </button>
                             </h2>
                             <div id="{{{../SolutionFileNameHeader}}}-{{{ProjectFileNameHeader}}}-body" aria-labelledby="#{{{../SolutionFileNameHeader}}}-{{{ProjectFileNameHeader}}}-heading" class="accordion-collapse collapse" data-bs-parent="#{{{../SolutionFileNameHeader}}}-{{{ProjectFileNameHeader}}}">
-                                {{#each Items}}
-                                <div id="{{{../../SolutionFileName}}}-{{{../Project.ProjectName}}}-{{{@Index}}}"></div>
-                                {{/each}}
+                                <div id="{{{../SolutionFileName}}}-{{{Project.ProjectName}}}-{{{@Index}}}"></div>
                             </div>
                         </div>
                     </div>
@@ -64,12 +62,10 @@
                 };
                 {{#each Solutions}}
 {{#each ProjectDifferences}}
-{{#each Items}}
-            var targetElement = document.getElementById('{{{../../SolutionFileName}}}-{{{../Project.ProjectName}}}-{{{@Index}}}');
-var diff2htmlUi = new Diff2HtmlUI(targetElement, `{{{Diff.Patch}}}`, configuration);
-diff2htmlUi.draw();
-diff2htmlUi.highlightCode();
-{{/each}}
+            var targetElement = document.getElementById('{{{../SolutionFileName}}}-{{{Project.ProjectName}}}-{{{@Index}}}');
+            var diff2htmlUi = new Diff2HtmlUI(targetElement, `{{{CombindedDiff}}}`, configuration);
+            diff2htmlUi.draw();
+            diff2htmlUi.highlightCode();
 {{/each}}
 {{/each}}
             });

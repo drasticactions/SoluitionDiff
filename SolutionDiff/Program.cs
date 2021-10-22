@@ -109,6 +109,8 @@ public class SolutionDifferences
 
     public string SolutionFileNameHeader => SolutionFileName.Replace(".", "-");
 
+    public int FilesChanged => ProjectDifferences.SelectMany(n => n.Items).Count();
+
     public List<ProjectDifferences> ProjectDifferences { get; set; } = new List<ProjectDifferences>();
 
     public void Print()
@@ -125,7 +127,11 @@ public class ProjectDifferences
 
     public string ProjectFileNameHeader => Project.ProjectName.Replace(".", "-");
 
+    public int FilesChanged => Items.Count();
+
     public List<ProjectDifference> Items { get; set; } = new List<ProjectDifference>();
+
+    public string CombindedDiff => string.Join(Environment.NewLine, Items.Select(n => n.Diff.Patch));
 
     public void PrintItems()
     {
